@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ onBuildNowClick, onLoginClick }) => {
                 ${isScrolled ? 'bg-[rgba(18,15,36,0.7)] backdrop-blur-lg border border-[var(--border-color)] shadow-lg' : 'bg-transparent border-transparent'} rounded-full`}
             >
                 <a href="#" className="flex items-center font-semibold text-[var(--foreground)] no-underline">
-                    <MominAILogo width={100} height={22} />
+                    <MominAILogo width={140} height={30} />
                 </a>
                 
                 {/* Desktop Navigation */}
