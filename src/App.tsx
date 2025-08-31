@@ -3,14 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import CustomCursor from './components/CustomCursor.tsx';
 import LandingPage from './components/LandingPage.tsx';
-import IDE from './IDE/App.tsx';
 import Loader from './components/Loader.tsx';
 import ThankYouPage from './components/ThankYouPage.tsx';
 import CheckoutPage from './components/CheckoutPage.tsx';
 
 const App = () => {
     // A single state to manage which view is active.
-    const [view, setView] = useState<'landing' | 'thankyou' | 'loading' | 'ide' | 'checkout'>('landing');
+    const [view, setView] = useState<'landing' | 'thankyou' | 'loading' | 'checkout'>('landing');
     // State to hold the plan selected for checkout.
     const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
 
@@ -19,16 +18,7 @@ const App = () => {
         const params = new URLSearchParams(window.location.search);
         const plan = params.get('checkout');
 
-        if (params.get('ide') === 'true') {
-            // If '?ide=true' is in the URL, start the loading sequence for the IDE.
-            setView('loading');
-            const timer = setTimeout(() => {
-                // After 4 seconds, switch from the loader to the IDE.
-                setView('ide');
-            }, 4000);
-            // Clean up the timer if the component unmounts.
-            return () => clearTimeout(timer);
-        } else if (params.get('thankyou') === 'true') {
+        if (params.get('thankyou') === 'true') {
             // If '?thankyou=true' is in the URL, show the thank you page.
             setView('thankyou');
         } else if (plan) {
@@ -47,13 +37,7 @@ const App = () => {
         const rootEl = document.getElementById('root');
         if (!rootEl) return;
 
-        if (view === 'ide') {
-            document.body.classList.add('ide-view');
-        } else {
-            document.body.classList.remove('ide-view');
-        }
-
-        if (view === 'ide' || view === 'loading' || view === 'thankyou' || view === 'checkout') {
+        if (view === 'loading' || view === 'thankyou' || view === 'checkout') {
             // For constrained views, lock the root to the viewport height.
             rootEl.style.height = '100vh';
             rootEl.style.overflow = 'hidden';
@@ -65,7 +49,6 @@ const App = () => {
 
         // Cleanup function to reset styles when the component unmounts.
         return () => {
-            document.body.classList.remove('ide-view');
             if (rootEl) {
                 rootEl.style.height = 'auto';
                 rootEl.style.overflow = 'visible';
@@ -88,8 +71,6 @@ const App = () => {
         switch (view) {
             case 'loading':
                 return <Loader />;
-            case 'ide':
-                return <IDE onLogout={handleLogout} />;
             case 'thankyou':
                 return <ThankYouPage />;
             case 'checkout':
