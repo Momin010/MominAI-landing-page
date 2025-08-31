@@ -21,10 +21,15 @@ const Header: React.FC<HeaderProps> = ({ onBuildNowClick, onLoginClick }) => {
     useEffect(() => {
         if (isMenuOpen) {
             document.body.style.overflow = 'hidden';
+            document.body.classList.add('native-cursor-active');
         } else {
             document.body.style.overflow = 'auto';
+            document.body.classList.remove('native-cursor-active');
         }
-        return () => { document.body.style.overflow = 'auto'; };
+        return () => {
+            document.body.style.overflow = 'auto';
+            document.body.classList.remove('native-cursor-active');
+        };
     }, [isMenuOpen]);
 
     const handleLinkClick = () => {
@@ -87,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({ onBuildNowClick, onLoginClick }) => {
             </header>
 
             {/* Mobile Menu Overlay */}
-            <div className={`fixed inset-0 bg-black/90 backdrop-blur-lg z-[999] flex flex-col justify-center items-center gap-8 lg:hidden transition-opacity duration-300 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+            <div className={`fixed inset-0 bg-black/95 backdrop-blur-lg z-[100000] flex flex-col justify-center items-center gap-8 lg:hidden transition-opacity duration-300 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 {navLinks.map(link => <a key={link.href} href={link.href} className="text-white no-underline text-3xl font-semibold" onClick={handleLinkClick}>{link.label}</a>)}
                 <div className="flex flex-col gap-6 items-center mt-8">
                     <button onClick={() => { onLoginClick(); handleLinkClick(); }} className="px-8 py-4 rounded-full border border-[var(--border-color)] text-2xl bg-transparent text-white hover:bg-white/10">
